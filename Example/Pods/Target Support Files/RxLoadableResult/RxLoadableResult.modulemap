@@ -1,0 +1,6 @@
+framework module RxLoadableResult {
+  umbrella header "RxLoadableResult-umbrella.h"
+
+  export *
+  module * { export * }
+}
