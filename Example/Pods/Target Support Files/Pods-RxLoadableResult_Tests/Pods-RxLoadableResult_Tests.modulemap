@@ -1,0 +1,6 @@
+framework module Pods_RxLoadableResult_Tests {
+  umbrella header "Pods-RxLoadableResult_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

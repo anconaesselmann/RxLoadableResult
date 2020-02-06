@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'RxLoadableResult_Example' do
+  pod 'RxLoadableResult', :path => '../'
+
+  target 'RxLoadableResult_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
