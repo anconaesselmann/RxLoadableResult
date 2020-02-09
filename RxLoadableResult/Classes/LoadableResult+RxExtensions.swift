@@ -4,12 +4,14 @@
 
 import RxSwift
 import RxOptional
+import RxRelay
 import RxCocoa
 import LoadableResult
 
 public typealias LoadingObservable<T> = Observable<LoadableResult<T>>
 public typealias DrivableState<T> = Driver<LoadableResult<T>>
 public typealias LoadableBehaviorSubject<T> = BehaviorSubject<LoadableResult<T>>
+public typealias LoadableBehaviorRelay<T> = BehaviorRelay<LoadableResult<T>>
 public typealias PublishState<T> = PublishSubject<LoadableResult<T>>
 
 public typealias ButtonDriver = Driver<Void>
@@ -344,6 +346,12 @@ extension Driver {
             .map { $0 as Result? }
             .asDriver(onErrorJustReturn: nil)
             .filterNil()
+    }
+}
+
+extension Observable {
+    public func toBool<T>() -> LoadingObservable<Bool> where Element == LoadableResult<T> {
+        return mapLoadableResult() { _ in return true }
     }
 }
 
