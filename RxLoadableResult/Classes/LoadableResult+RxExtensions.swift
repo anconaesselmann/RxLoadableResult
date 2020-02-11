@@ -204,12 +204,68 @@ extension Observable {
         return map { ($0.0, $0.1, $0.2, $0.3, $0.4, $0.5, instance) }
     }
 
+    // MARK: - filterNils
+
+    public func filterNils<O1, O2>() -> Observable<(O1, O2)> where Element == (O1?, O2?) {
+        return map { (tuple: (O1?, O2?)) -> (O1, O2)? in
+            guard let t0 = tuple.0, let t1 = tuple.1 else {
+                return nil
+            }
+            return (t0, t1)
+        }.filterNil()
+    }
+
     public func filterNils<O1, O2, O3>() -> Observable<(O1, O2, O3)> where Element == (O1?, O2?, O3?) {
         return map { (tuple: (O1?, O2?, O3?)) -> (O1, O2, O3)? in
             guard let t0 = tuple.0, let t1 = tuple.1, let t2 = tuple.2 else {
                 return nil
             }
             return (t0, t1, t2)
+        }.filterNil()
+    }
+
+    public func filterNils<O1, O2, O3, O4>() -> Observable<(O1, O2, O3, O4)> where Element == (O1?, O2?, O3?, O4?) {
+        return map { (tuple: (O1?, O2?, O3?, O4?)) -> (O1, O2, O3, O4)? in
+            guard let t0 = tuple.0, let t1 = tuple.1, let t2 = tuple.2, let t3 = tuple.3 else {
+                return nil
+            }
+            return (t0, t1, t2, t3)
+        }.filterNil()
+    }
+
+    public func filterNils<O1, O2, O3, O4, O5>() -> Observable<(O1, O2, O3, O4, O5)> where Element == (O1?, O2?, O3?, O4?, O5?) {
+        return map { (tuple: (O1?, O2?, O3?, O4?, O5?)) -> (O1, O2, O3, O4, O5)? in
+            guard let t0 = tuple.0, let t1 = tuple.1, let t2 = tuple.2, let t3 = tuple.3, let t4 = tuple.4 else {
+                return nil
+            }
+            return (t0, t1, t2, t3, t4)
+        }.filterNil()
+    }
+
+    public func filterNils<O1, O2, O3, O4, O5, O6>() -> Observable<(O1, O2, O3, O4, O5, O6)> where Element == (O1?, O2?, O3?, O4?, O5?, O6?) {
+        return map { (tuple: (O1?, O2?, O3?, O4?, O5?, O6?)) -> (O1, O2, O3, O4, O5, O6)? in
+            guard let t0 = tuple.0, let t1 = tuple.1, let t2 = tuple.2, let t3 = tuple.3, let t4 = tuple.4, let t5 = tuple.5 else {
+                return nil
+            }
+            return (t0, t1, t2, t3, t4, t5)
+        }.filterNil()
+    }
+
+    public func filterNils<O1, O2, O3, O4, O5, O6, O7>() -> Observable<(O1, O2, O3, O4, O5, O6, O7)> where Element == (O1?, O2?, O3?, O4?, O5?, O6?, O7?) {
+        return map { (tuple: (O1?, O2?, O3?, O4?, O5?, O6?, O7?)) -> (O1, O2, O3, O4, O5, O6, O7)? in
+            guard let t0 = tuple.0, let t1 = tuple.1, let t2 = tuple.2, let t3 = tuple.3, let t4 = tuple.4, let t5 = tuple.5, let t6 = tuple.6 else {
+                return nil
+            }
+            return (t0, t1, t2, t3, t4, t5, t6)
+        }.filterNil()
+    }
+
+    public func filterNils<O1, O2, O3, O4, O5, O6, O7, O8>() -> Observable<(O1, O2, O3, O4, O5, O6, O7, O8)> where Element == (O1?, O2?, O3?, O4?, O5?, O6?, O7?, O8?) {
+        return map { (tuple: (O1?, O2?, O3?, O4?, O5?, O6?, O7?, O8?)) -> (O1, O2, O3, O4, O5, O6, O7, O8)? in
+            guard let t0 = tuple.0, let t1 = tuple.1, let t2 = tuple.2, let t3 = tuple.3, let t4 = tuple.4, let t5 = tuple.5, let t6 = tuple.6, let t7 = tuple.7 else {
+                return nil
+            }
+            return (t0, t1, t2, t3, t4, t5, t6, t7)
         }.filterNil()
     }
 }
