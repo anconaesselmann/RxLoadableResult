@@ -407,12 +407,12 @@ extension Driver {
 
 extension Observable {
     public func toBool<T>() -> LoadingObservable<Bool> where Element == LoadableResult<T> {
-        return mapLoadableResult() { _ in return true }
+        return mapLoaded() { _ in return true }
     }
 }
 
 extension Observable {
-    public func mapLoadableResult<T, Result>(_ transform: @escaping (T) -> Result) -> LoadingObservable<Result> where Element == LoadableResult<T> {
+    public func mapLoaded<T, Result>(_ transform: @escaping (T) -> Result) -> LoadingObservable<Result> where Element == LoadableResult<T> {
         return map { (state: LoadableResult<T>) -> LoadableResult<Result> in
             switch state {
             case .inactive:
@@ -423,6 +423,54 @@ extension Observable {
                 return .loaded(transform(before))
             case .error(let error):
                 return .error(error)
+            }
+        }
+    }
+
+    public enum MappedError: Error {
+        case both(Error, Error)
+    }
+
+    public func mapLoaded<T1, T2, Result>(_ transform: @escaping (T1, T2) -> Result) -> LoadingObservable<Result> where Element == (LoadableResult<T1>, LoadableResult<T2>) {
+        return map { (tuple: (LoadableResult<T1>, LoadableResult<T2>)) -> LoadableResult<Result> in
+            switch (tuple.0, tuple.1) {
+            case (.inactive, .inactive),
+                 (.inactive, .loading),
+                 (.inactive, .loaded),
+                 (.loading, .inactive),
+                 (.loaded, .inactive):
+                return .inactive
+            case (.loading, .loading),
+                 (.loaded, .loading),
+                 (.loading, .loaded):
+                return .loading
+            case (.loaded(let t1), .loaded(let t2)):
+                return .loaded(transform(t1, t2))
+            case (.error(let e1), .error(let e2)):
+                return .error(MappedError.both(e1, e2))
+            case (.inactive, .error(let error)),
+                 (.error(let error), .inactive),
+                 (.loading, .error(let error)),
+                 (.error(let error), .loading),
+                 (.loaded, .error(let error)),
+                 (.error(let error), .loaded):
+                return .error(error)
+            }
+        }
+    }
+
+    public func mapLoaded<T1, T2, Result>(_ transform: @escaping (T1, T2) -> Result) -> LoadingObservable<Result> where Element == (LoadableResult<T1>, T2) {
+        return map { (tuple: (LoadableResult<T1>, T2)) -> LoadableResult<Result> in
+            return tuple.0.mapLoaded {
+                transform($0, tuple.1)
+            }
+        }
+    }
+
+    public func mapLoaded<T1, T2, Result>(_ transform: @escaping (T1, T2) -> Result) -> LoadingObservable<Result> where Element == (T1, LoadableResult<T2>) {
+        return map { (tuple: (T1, LoadableResult<T2>)) -> LoadableResult<Result> in
+            return tuple.1.mapLoaded {
+                transform(tuple.0, $0)
             }
         }
     }
