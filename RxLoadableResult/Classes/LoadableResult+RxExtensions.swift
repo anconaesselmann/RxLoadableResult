@@ -270,36 +270,6 @@ extension Observable {
     }
 }
 
-extension LoadableResult  {
-    /// Exposes the loaded state of a LoadableResult and provides ability to give defaults for non-loaded states
-    public func unpack<Element>(
-        whenInactive: Element? = nil,
-        whenLoading: Element? = nil,
-        whenError: Element? = nil
-    ) -> Element? {
-        return map { state -> Element? in
-            switch state {
-            case .inactive:
-                return whenInactive
-            case .loading:
-                return whenLoading
-            case .loaded:
-                return self.loaded as? Element
-            case .error:
-                return whenError
-            }
-        }
-    }
-
-    public func unpack<Element>(whenNotLoaded: Element) -> Element {
-        return unpack(
-            whenInactive: whenNotLoaded,
-            whenLoading: whenNotLoaded,
-            whenError: whenNotLoaded
-        ) ?? whenNotLoaded
-    }
-}
-
 extension BehaviorSubject {
     public func unpack<T>(
         whenInactive: T? = nil,
@@ -323,17 +293,13 @@ extension ObservableType {
         whenError: T? = nil
     ) -> Observable<T?> where Element == LoadableResult<T> {
         return map { state -> T? in
-            switch state {
-            case .inactive:
-                return whenInactive
-            case .loading:
-                return whenLoading
-            case .loaded(let unpacked):
-                return unpacked
-            case .error:
-                return whenError
-            }
+            return state.unpack()
         }
+    }
+
+    /// Only emmits for loaded values.
+    public func loaded<T>() -> Observable<T> where Element == LoadableResult<T> {
+        return unpack().filterNil()
     }
 
     public func unpack<T, Observer>(withStateObserver stateObserver: Observer) -> Observable<T> where Element == LoadableResult<T>, Observer : RxSwift.ObserverType, Observer.Element == LoadableResult<Void> {
