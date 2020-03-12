@@ -297,6 +297,22 @@ extension ObservableType {
         }
     }
 
+    /// Emits onNext events for loaded results. Emits actual errors for error results (will terminate stream)
+    public func unpacked<T>() -> Observable<T> where Element == LoadableResult<T> {
+        return map { result -> Event<T>? in
+            switch result {
+            case .inactive, .loading:
+                return nil
+            case .loaded(let loaded):
+                return Event.next(loaded)
+            case .error(let error):
+                return Event.error(error)
+            }
+        }
+        .filterNil()
+        .dematerialize()
+    }
+
     /// Only emmits for loaded values.
     public func loaded<T>() -> Observable<T> where Element == LoadableResult<T> {
         return unpack().filterNil()
@@ -377,18 +393,65 @@ extension Observable {
     }
 }
 
+public enum LoadableResultType: Equatable {
+    case inactive
+    case loaded
+    case loading
+    case error
+}
+
+extension LoadableResult {
+    public var type: LoadableResultType {
+        switch self {
+        case .inactive:
+            return .inactive
+        case .loading:
+            return .loading
+        case .loaded:
+            return .loaded
+        case .error:
+            return .error
+        }
+    }
+}
+
+extension Observable {
+    // Will complete once a given result type is encountered
+    public func takeUntil<T>(_ resultTypes: LoadableResultType...) -> Observable<LoadableResult<T>> where Element == LoadableResult<T> {
+        takeUntil(.inclusive) { result -> Bool in
+            func typeIsIncluded(_ type: LoadableResultType) -> Bool {
+                return resultTypes.first { type == $0 } != nil
+            }
+            return typeIsIncluded(result.type)
+        }
+
+    }
+}
+
 extension Observable {
     public func mapLoaded<T, Result>(_ transform: @escaping (T) -> Result) -> LoadingObservable<Result> where Element == LoadableResult<T> {
         return map { (state: LoadableResult<T>) -> LoadableResult<Result> in
             switch state {
-            case .inactive:
-                return .inactive
-            case .loading:
-                return .loading
-            case .loaded(let before):
-                return .loaded(transform(before))
-            case .error(let error):
-                return .error(error)
+            case .inactive: return .inactive
+            case .loading: return .loading
+            case .loaded(let before): return .loaded(transform(before))
+            case .error(let error): return .error(error)
+            }
+        }
+    }
+
+    /// Loaded results are the input for the flatmap
+    /// Example:
+    /// - Request chaingin
+    ///     A server request returns a URL for an image resource. The request for the image resource can
+    ///     be passed into flatMapLoaded, for a final loaded resutl type of UIImage.
+    public func flatMapLoaded<Loaded, Mapped>(_ transform: @escaping (Loaded) -> Observable<LoadableResult<Mapped>>) -> Observable<LoadableResult<Mapped>> where Element == LoadableResult<Loaded> {
+        return flatMap { result -> Observable<LoadableResult<Mapped>> in
+            switch result {
+            case .inactive: return .just(.inactive)
+            case .loading: return .just(.loading)
+            case .error(let error): return .just(.error(error))
+            case .loaded(let before): return transform(before)
             }
         }
     }
