@@ -1,6 +1,6 @@
 # RxLoadableResult
 
-[![CI Status](https://img.shields.io/travis/ancona-esselmann/RxLoadableResult.svg?style=flat)](https://travis-ci.org/ancona-esselmann/RxLoadableResult)
+[![CI Status](https://img.shields.io/travis/anconaesselmann/RxLoadableResult.svg?style=flat)](https://travis-ci.org/anconaesselmann/RxLoadableResult)
 [![Version](https://img.shields.io/cocoapods/v/RxLoadableResult.svg?style=flat)](https://cocoapods.org/pods/RxLoadableResult)
 [![License](https://img.shields.io/cocoapods/l/RxLoadableResult.svg?style=flat)](https://cocoapods.org/pods/RxLoadableResult)
 [![Platform](https://img.shields.io/cocoapods/p/RxLoadableResult.svg?style=flat)](https://cocoapods.org/pods/RxLoadableResult)
