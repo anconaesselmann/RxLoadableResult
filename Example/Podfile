@@ -6,6 +6,5 @@ target 'RxLoadableResult_Example' do
   target 'RxLoadableResult_Tests' do
     inherit! :search_paths
 
-    
   end
 end

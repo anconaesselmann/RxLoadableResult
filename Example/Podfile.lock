@@ -1,16 +1,43 @@
 PODS:
-  - RxLoadableResult (0.1.0)
+  - LoadableResult (0.2.3)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxLoadableResult (0.2.3):
+    - LoadableResult
+    - RxCocoa
+    - RxOptional
+    - RxSwift
+  - RxOptional (4.1.0):
+    - RxCocoa (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
 
 DEPENDENCIES:
   - RxLoadableResult (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - LoadableResult
+    - RxCocoa
+    - RxOptional
+    - RxRelay
+    - RxSwift
 
 EXTERNAL SOURCES:
   RxLoadableResult:
     :path: "../"
 
 SPEC CHECKSUMS:
-  RxLoadableResult: b45e9fb9a74c9e20806f773d6050a1c69708cd7b
+  LoadableResult: e92ab37c5077e56f8c3f3b69d5111f186339b603
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxLoadableResult: 05390ca212b12c3abdb669781b6e1ddef676e8f7
+  RxOptional: b1fcd60856807a564c0215c2184b8d33e7826dc2
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
 
-PODFILE CHECKSUM: 327348cdec910cbb4a7090ebeee956185b385ae6
+PODFILE CHECKSUM: a6af435ba4cfc622f31306db83dcc0532ae5dace
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

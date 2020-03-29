@@ -1,22 +1,39 @@
 {
   "name": "RxLoadableResult",
-  "version": "0.1.0",
-  "summary": "A short description of RxLoadableResult.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/ancona-esselmann/RxLoadableResult",
+  "version": "0.2.3",
+  "summary": "Rx extension for LoadableResult",
+  "swift_versions": "5.0",
+  "description": "Rx extension for LoadableResult.",
+  "homepage": "https://github.com/anconaesselmann/RxLoadableResult",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "ancona-esselmann": "axel@vida.com"
+    "anconaesselmann": "axel@anconaesselmann.com"
   },
   "source": {
-    "git": "https://github.com/ancona-esselmann/RxLoadableResult.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/anconaesselmann/RxLoadableResult.git",
+    "tag": "0.2.3"
   },
   "platforms": {
-    "ios": "8.0"
+    "ios": "10.0",
+    "watchos": "3.0"
   },
-  "source_files": "RxLoadableResult/Classes/**/*"
+  "source_files": "RxLoadableResult/Classes/**/*",
+  "dependencies": {
+    "RxSwift": [
+
+    ],
+    "RxOptional": [
+
+    ],
+    "RxCocoa": [
+
+    ],
+    "LoadableResult": [
+
+    ]
+  },
+  "swift_version": "5.0"
 }

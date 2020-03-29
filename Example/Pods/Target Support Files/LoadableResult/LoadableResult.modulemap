@@ -1,0 +1,6 @@
+framework module LoadableResult {
+  umbrella header "LoadableResult-umbrella.h"
+
+  export *
+  module * { export * }
+}
