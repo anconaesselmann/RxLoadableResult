@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'RxLoadableResult'
-  s.version          = '0.2.11'
+  s.version          = '0.2.12'
   s.summary          = 'Rx extension for LoadableResult'
   s.swift_version    = '5.0'
 
