@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'RxLoadableResult'
-  s.version          = '0.2.13'
+  s.version          = '0.2.14'
   s.summary          = 'Rx extension for LoadableResult'
   s.swift_version    = '5.2'
 
@@ -18,8 +18,8 @@ Rx extension for LoadableResult.
 
   s.source_files = 'RxLoadableResult/Classes/**/*'
 
-  s.dependency 'RxSwift'
-  s.dependency 'RxOptional'
+  s.dependency 'RxSwift', '~> 6.0.0'
+  s.dependency 'RxOptional', '~> 5.0.2'
   s.dependency 'RxCocoa'
   s.dependency 'LoadableResult'
 end
