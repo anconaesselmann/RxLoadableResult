@@ -113,9 +113,9 @@ extension ObservableType where Element: LoadableType  {
 
     // NOTE: Will complete. Careful with using bind.
     public func takeUntilFirstLoaded() -> Observable<Element> {
-        return self.takeUntil(.inclusive) { element -> Bool in
+        take(until: { element -> Bool in
             return element.loaded != nil
-        }
+        }, behavior: .inclusive)
     }
 }
 
@@ -418,13 +418,12 @@ extension LoadableResult {
 extension Observable {
     // Will complete once a given result type is encountered
     public func takeUntil<T>(_ resultTypes: LoadableResultType...) -> Observable<LoadableResult<T>> where Element == LoadableResult<T> {
-        takeUntil(.inclusive) { result -> Bool in
+        take(until: { result -> Bool in
             func typeIsIncluded(_ type: LoadableResultType) -> Bool {
                 return resultTypes.first { type == $0 } != nil
             }
             return typeIsIncluded(result.type)
-        }
-
+        }, behavior: .inclusive)
     }
 }
 
